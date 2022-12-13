@@ -82,8 +82,7 @@ class Tile
 };
 
 class Player
-{
-	
+{	
 	constructor(tiles, myMatter, oppMatter)
 	{
 		this.tiles = tiles;
