@@ -64,3 +64,7 @@ while (true) {
         }
     }
 }
+
+// tiles approach
+//	tiles[i + j * width];
+
