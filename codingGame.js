@@ -92,7 +92,6 @@ class Player
 			return yInMap(-value);
 		}
 	}
-
 }
 
 // class end
