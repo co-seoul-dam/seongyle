@@ -66,7 +66,6 @@ class Tile
 		const step = 1;
 		const amount = 1; // maybe amount can be random.
 		const uniform_data = Math.random();
-		console.error(uniform_data)
 
 		if (this.units <= 0)
 			return ;
