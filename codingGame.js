@@ -48,20 +48,24 @@ class Player
 		this.neutralTiles = tiles.filter(tile => tile.owner === -1);
 		this.myMatter = myMatter;
 		this.oppMatter = oppMatter
+		this.turnCount = 0;
 	}
 
-	takeStrategy()
-	{
+	takeStrategy() {
 		// switch strategy in proper condition
 		this.randomWalk();
 	}
 
-	randomWalk()
-	{
+	randomWalk(){
 		this.myTiles.forEach( tile => { this._moveRandom(tile) } )
 		process.stdout.write('\n');
 	}
 
+	turnOver() {
+		this.turnCount++;
+	}
+
+	// private
 	_moveRandom(tile) {
 		const step = 1;
 		const amount = 1; // maybe amount can be random.
@@ -141,4 +145,5 @@ while (true) {
     }
 	const player = new Player(tiles, myMatter, oppMatter);
 	player.takeStrategy();
+	player.turnOver();
 }
