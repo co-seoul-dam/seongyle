@@ -15,7 +15,11 @@ class Tile
 	}
 
 	move(amount, toX, toY) {
-		process.stdout.write(`MOVE ${amount} ${this.x} ${this.y} ${toX} ${toY};`)
+		process.stdout.write(`MOVE ${amount} ${this.x} ${this.y} ${toX} ${toY};`);
+	}
+
+	spawn(amount) {
+		process.stdout.write(`SPAWN ${amount} ${this.x} ${this.y};`);
 	}
 };
 
@@ -38,7 +42,13 @@ class Player
 	}
 
 	randomWalk() {
-		this.myTiles.forEach( tile => { this._moveRandom(tile) } )
+		this.myTiles.forEach( tile => {
+			const amount = 1;
+			this._moveRandom(tile);
+			if (tile.canSpawn && this.myMatter >= 10)
+				tile.spawn(amount);
+			}
+		)
 		process.stdout.write('\n');
 	}
 
