@@ -82,6 +82,28 @@ class Tile
 	}
 };
 
+class Player
+{
+	constructor(myTiles, foeTiles, neutralTiles)
+	{
+		this.myTiles = myTiles;
+		this.foeTiles = foeTiles;
+		this.neutralTiles= neutralTiles;
+	}
+
+	takeStrategy()
+	{
+		// switch strategy in proper condition
+		this.randomWalk();
+	}
+
+	randomWalk()
+	{
+		this.myTiles.forEach( tile => { tile.moveRandom() } )
+		process.stdout.write('\n');
+	}
+}
+
 var inputs = readline().split(' ');
 const width = parseInt(inputs[0]);
 const height = parseInt(inputs[1]);
@@ -97,7 +119,7 @@ while (true) {
         for (let j = 0; j < width; j++) {
             var inputs = readline().split(' ');
             const scrapAmount = parseInt(inputs[0]);
-            const owner = parseInt(inputs[1]); // 1 = me, 0 = foe, -1 = neutral
+            const owner = parseInt(inputs[1]);
             const units = parseInt(inputs[2]);
             const recycler = parseInt(inputs[3]);
             const canBuild = parseInt(inputs[4]);
@@ -107,10 +129,9 @@ while (true) {
 			tiles.push(tile);
         }
     }
-	myTiles = tiles.filter(tile => tile.owner === 1)
-	myTiles.forEach( tile => {
-		tile.moveRandom();
-	}
-	)
-	process.stdout.write('\n');
+	myTiles = tiles.filter(tile => tile.owner === 1);
+	foeTiles = tiles.filter(tile => tile.owner === 0);
+	neutralTiles = tiles.filter(tile => tile.owner === -1);
+	const player = new Player(myTiles, foeTiles, neutralTiles);
+	player.takeStrategy();
 }
