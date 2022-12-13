@@ -1,23 +1,4 @@
 // class  start
-class Map
-{
-    constructor(height, width) {
-		this.height = height;
-		this.width = width;
-    }
-
-	getCenter() {
-		return [this.height/2,  this.width];
-	}
-
-	getHeight() {
-		return this.height;
-	}
-	getWidth() {
-		return this.width;
-	}
-};
-
 class Tile
 {
 	constructor(x, y, scrapAmount, owner, units, recycler, canBuild, canSpawn, inRangeOfRecycler)
@@ -121,7 +102,6 @@ class Player
 var inputs = readline().split(' ');
 const width = parseInt(inputs[0]);
 const height = parseInt(inputs[1]);
-const map = new Map(width, height);
 
 // game loop
 while (true) {
