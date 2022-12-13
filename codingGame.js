@@ -60,11 +60,7 @@ while (true) {
             const canSpawn = parseInt(inputs[5]);
             const inRangeOfRecycler = parseInt(inputs[6]);
 			const tile = new Tile(i, j, scrapAmount, owner, units, recycler, canBuild, canSpawn, inRangeOfRecycler);
-			tiles.append(tile);
+			tiles.push(tile);
         }
     }
 }
-
-// tiles approach
-//	tiles[i + j * width];
-
