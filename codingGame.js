@@ -23,15 +23,15 @@ class Tile
 {
 	constructor(x, y, scrapAmount, owner, units, recycler, canBuild, canSpawn, inRangeOfRecycler)
 	{
-		this.x = x
-		this.y = y 
-		this.scrapAmount = scrapAmount 
-		this.owner = owner
-		this.units = units
-		this.recycler = recycler
-		this.canBuild = canBuild 
-		this.canSpawn = canSpawn
-		this.inRangeOfRecycler = inRangeOfRecycler 
+		this.x = x;
+		this.y = y;
+		this.scrapAmount = scrapAmount;
+		this.owner = owner;
+		this.units = units;
+		this.recycler = recycler;
+		this.canBuild = canBuild;
+		this.canSpawn = canSpawn;
+		this.inRangeOfRecycler = inRangeOfRecycler;
 	}
 
 	move(amount, toX, toY) {
@@ -81,7 +81,6 @@ class Tile
 			console.error("can't move.");
 	}
 };
-
 
 var inputs = readline().split(' ');
 const width = parseInt(inputs[0]);
