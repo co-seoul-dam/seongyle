@@ -62,7 +62,7 @@ class Player
 			toY -= step;
 		toX = this._xInMap(toX);
 		toY = this._yInMap(toY);
-		if (this.tiles[toX + toY * width].scrapAmount <= 0)
+		if (this.tiles[toX + toY * width].scrapAmount <= 0 || this.tiles[toX + toY * width].owner === 1)
 		{
 			this._moveRandom(tile);
 			return ;
