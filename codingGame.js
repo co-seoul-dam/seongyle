@@ -34,6 +34,51 @@ class Tile
 	}
 
 	move(amount, toX, toY) {
+		process.stdout.write(`MOVE ${amount} ${this.x} ${this.y} ${toX} ${toY};`)
+	}
+};
+
+class Player
+{	
+	constructor(tiles, myMatter, oppMatter)
+	{
+		this.tiles = tiles;
+		this.myTiles = tiles.filter(tile => tile.owner === 1);
+		this.foeTiles = tiles.filter(tile => tile.owner === 0);
+		this.neutralTiles = tiles.filter(tile => tile.owner === -1);
+		this.myMatter = myMatter;
+		this.oppMatter = oppMatter
+	}
+
+	takeStrategy()
+	{
+		// switch strategy in proper condition
+		this.randomWalk();
+	}
+
+	randomWalk()
+	{
+		this.myTiles.forEach( tile => { this._moveRandom(tile) } )
+		process.stdout.write('\n');
+	}
+
+	_moveRandom(tile) {
+		const step = 1;
+		const amount = 1; // maybe amount can be random.
+		const uniform_data = Math.random();
+		let toX = tile.x;
+		let toY = tile.y;
+
+		if (tile.units <= 0)
+			return ;
+		if (uniform_data < 0.25)
+			toX += step;
+		else if (uniform_data < 0.5)
+			toY += step;
+		else if (uniform_data < 0.75)
+			toX -= step;
+		else if (uniform_data < 1)
+			toY -= step;
 		const xInMap = (value) => {
 			if (value < width && value >= 0) {
 				return value;
@@ -58,51 +103,12 @@ class Tile
 		}
 		toX = xInMap(toX);
 		toY = yInMap(toY);
-		process.stdout.write(`MOVE ${amount} ${this.x} ${this.y} ${toX} ${toY};`)
-	}
-
-	moveRandom() {
-		const step = 1;
-		const amount = 1; // maybe amount can be random.
-		const uniform_data = Math.random();
-
-		if (this.units <= 0)
+		if (this.tiles[toX + toY * width].scrapAmount <= 0)
+		{
+			this._moveRandom(tile);
 			return ;
-		if (uniform_data < 0.25)
-			this.move(amount, this.x + step, this.y);
-		else if (uniform_data < 0.5)
-			this.move(amount, this.x , this.y + step);
-		else if (uniform_data < 0.75)
-			this.move(amount, this.x - step, this.y);
-		else if (uniform_data < 1)
-			this.move(amount, this.x , this.y - step);
-		else
-			console.error("can't move.");
-	}
-};
-
-class Player
-{	
-	constructor(tiles, myMatter, oppMatter)
-	{
-		this.tiles = tiles;
-		this.myTiles = tiles.filter(tile => tile.owner === 1);
-		this.foeTiles = tiles.filter(tile => tile.owner === 0);
-		this.neutralTiles = tiles.filter(tile => tile.owner === -1);
-		this.myMatter = myMatter;
-		this.oppMatter = oppMatter
-	}
-
-	takeStrategy()
-	{
-		// switch strategy in proper condition
-		this.randomWalk();
-	}
-
-	randomWalk()
-	{
-		this.myTiles.forEach( tile => { tile.moveRandom() } )
-		process.stdout.write('\n');
+		}
+		tile.move(amount, toX , toY);
 	}
 }
 
