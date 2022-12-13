@@ -98,6 +98,7 @@ class Player
 var inputs = readline().split(' ');
 const width = parseInt(inputs[0]);
 const height = parseInt(inputs[1]);
+let turnCount = 0;
 
 // game loop
 while (true) {
@@ -121,4 +122,5 @@ while (true) {
     }
 	const player = new Player(tiles, myMatter, oppMatter);
 	player.takeStrategy();
+	turnCount += 1;
 }
