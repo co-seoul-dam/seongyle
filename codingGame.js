@@ -37,7 +37,7 @@ class Player
 		this.randomWalk();
 	}
 
-	randomWalk(){
+	randomWalk() {
 		this.myTiles.forEach( tile => { this._moveRandom(tile) } )
 		process.stdout.write('\n');
 	}
@@ -60,30 +60,8 @@ class Player
 			toX -= step;
 		else if (uniform_data < 1)
 			toY -= step;
-		const xInMap = (value) => {
-			if (value < width && value >= 0) {
-				return value;
-			}
-			if (value >= width) {
-				return xInMap(2 * (width - 1) - value);
-			}
-			if (value < 0) {
-				return xInMap(-value);
-			}
-		}
-		const yInMap = (value) => {
-			if (value < height && value >= 0) {
-				return value;
-			}
-			if (value >= height) {
-				return yInMap(2 * (height - 1) - value);
-			}
-			if (value < 0) {
-				return yInMap(-value);
-			}
-		}
-		toX = xInMap(toX);
-		toY = yInMap(toY);
+		toX = this._xInMap(toX);
+		toY = this._yInMap(toY);
 		if (this.tiles[toX + toY * width].scrapAmount <= 0)
 		{
 			this._moveRandom(tile);
@@ -91,6 +69,30 @@ class Player
 		}
 		tile.move(amount, toX , toY);
 	}
+
+	_xInMap = (value) => {
+		if (value < width && value >= 0) {
+			return value;
+		}
+		if (value >= width) {
+			return xInMap(2 * (width - 1) - value);
+		}
+		if (value < 0) {
+			return xInMap(-value);
+		}
+	}
+	_yInMap = (value) => {
+		if (value < height && value >= 0) {
+			return value;
+		}
+		if (value >= height) {
+			return yInMap(2 * (height - 1) - value);
+		}
+		if (value < 0) {
+			return yInMap(-value);
+		}
+	}
+
 }
 
 // class end
