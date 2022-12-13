@@ -75,10 +75,10 @@ class Player
 			return value;
 		}
 		if (value >= width) {
-			return xInMap(2 * (width - 1) - value);
+			return this._xInMap(2 * (width - 1) - value);
 		}
 		if (value < 0) {
-			return xInMap(-value);
+			return this._xInMap(-value);
 		}
 	}
 	_yInMap = (value) => {
@@ -86,10 +86,10 @@ class Player
 			return value;
 		}
 		if (value >= height) {
-			return yInMap(2 * (height - 1) - value);
+			return this._yInMap(2 * (height - 1) - value);
 		}
 		if (value < 0) {
-			return yInMap(-value);
+			return this._yInMap(-value);
 		}
 	}
 }
