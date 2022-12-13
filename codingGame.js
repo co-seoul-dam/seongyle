@@ -42,10 +42,6 @@ class Player
 		process.stdout.write('\n');
 	}
 
-	turnOver() {
-		this.turnCount++;
-	}
-
 	// private
 	_moveRandom(tile) {
 		const step = 1;
@@ -125,5 +121,4 @@ while (true) {
     }
 	const player = new Player(tiles, myMatter, oppMatter);
 	player.takeStrategy();
-	player.turnOver();
 }
