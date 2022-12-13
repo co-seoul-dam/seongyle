@@ -35,6 +35,30 @@ class Tile
 	}
 
 	move(amount, toX, toY) {
+		const xInMap = (value) => {
+			if (value < width && value >= 0) {
+				return value;
+			}
+			if (value >= width) {
+				return xInMap(2 * (width - 1) - value);
+			}
+			if (value < 0) {
+				return xInMap(-value);
+			}
+		}
+		const yInMap = (value) => {
+			if (value < height && value >= 0) {
+				return value;
+			}
+			if (value >= height) {
+				return yInMap(2 * (height - 1) - value);
+			}
+			if (value < 0) {
+				return yInMap(-value);
+			}
+		}
+		toX = xInMap(toX);
+		toY = yInMap(toY);
 		process.stdout.write(`MOVE ${amount} ${this.x} ${this.y} ${toX} ${toY};`)
 	}
 
