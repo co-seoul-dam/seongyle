@@ -1,5 +1,4 @@
-/* class */
-
+// class  start
 class Map
 {
     constructor(height, width) {
@@ -103,6 +102,8 @@ class Player
 		process.stdout.write('\n');
 	}
 }
+
+// class end
 
 var inputs = readline().split(' ');
 const width = parseInt(inputs[0]);
