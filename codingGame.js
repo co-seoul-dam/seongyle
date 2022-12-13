@@ -68,7 +68,7 @@ class Player
 	// private
 	_moveRandom(tile) {
 		const step = 1;
-		const amount = 1; // maybe amount can be random.
+		const amount = tile.units;
 		const uniform_data = Math.random();
 		let toX = tile.x;
 		let toY = tile.y;
