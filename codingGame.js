@@ -28,8 +28,8 @@ class Player
 		this.foeTiles = tiles.filter(tile => tile.owner === 0);
 		this.neutralTiles = tiles.filter(tile => tile.owner === -1);
 		this.myMatter = myMatter;
-		this.oppMatter = oppMatter
-		this.turnCount = 0;
+		this.oppMatter = oppMatter;
+		this.endure = 0;
 	}
 
 	takeStrategy() {
@@ -62,9 +62,11 @@ class Player
 			toY -= step;
 		toX = this._xInMap(toX);
 		toY = this._yInMap(toY);
-		if (this.tiles[toX + toY * width].scrapAmount <= 0 || this.tiles[toX + toY * width].owner === 1)
+		this.endure += 1;
+		if (this.endure <= 42 && (this.tiles[toX + toY * width].scrapAmount <= 0 || this.tiles[toX + toY * width].owner === 1))
 		{
 			this._moveRandom(tile);
+			this.endure = 0;
 			return ;
 		}
 		tile.move(amount, toX , toY);
