@@ -83,11 +83,15 @@ class Tile
 
 class Player
 {
-	constructor(myTiles, foeTiles, neutralTiles)
+	
+	constructor(tiles, myMatter, oppMatter)
 	{
-		this.myTiles = myTiles;
-		this.foeTiles = foeTiles;
-		this.neutralTiles= neutralTiles;
+		this.tiles = tiles;
+		this.myTiles = tiles.filter(tile => tile.owner === 1);
+		this.foeTiles = tiles.filter(tile => tile.owner === 0);
+		this.neutralTiles = tiles.filter(tile => tile.owner === -1);
+		this.myMatter = myMatter;
+		this.oppMatter = oppMatter
 	}
 
 	takeStrategy()
@@ -130,9 +134,6 @@ while (true) {
 			tiles.push(tile);
         }
     }
-	myTiles = tiles.filter(tile => tile.owner === 1);
-	foeTiles = tiles.filter(tile => tile.owner === 0);
-	neutralTiles = tiles.filter(tile => tile.owner === -1);
-	const player = new Player(myTiles, foeTiles, neutralTiles);
+	const player = new Player(tiles, myMatter, oppMatter);
 	player.takeStrategy();
 }
