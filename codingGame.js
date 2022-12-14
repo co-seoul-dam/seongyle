@@ -46,7 +46,7 @@ class Player
 		this.myTiles.forEach( tile => {
 			const amount = 1;
 			this._moveRandom(tile);
-			if (tile.canSpawn && this.myMatter >= 10)
+			if (tile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(tile))
 				tile.spawn(amount);
 			}
 		)
@@ -81,6 +81,23 @@ class Player
 			return ;
 		}
 		tile.move(amount, toX , toY);
+	}
+
+	_isGoodPlaceToSpawn(tile) {
+		const currentX = tile.x;
+		const currentY = tile.y;
+		const upTile = this.tiles[currentX + (currentY + 1) * width];
+		const leftTile = this.tiles[currentX - 1 + currentY * width];
+		const rightTile = this.tiles[currentX + 1 + currentY * width] ;
+		const downTile = this.tiles[currentX + (currentY - 1) * width];
+
+		if (currentX === 0 || currentY === 0 || currentX === width - 1 || currentY === height - 1)
+			return false;
+		if (upTile.owner === 1 && leftTile.owner === 1 && rightTile.owner === 1 && downTile.owner === 1)
+			return false;
+		if (upTile.scrapAmount === 0 || leftTile.scrapAmount === 0 || rightTile.scrapAmount === 0 || downTile.scrapAmount === 0)
+			return false;
+		return true;
 	}
 
 	_xInMap = (value) => {
