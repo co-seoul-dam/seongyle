@@ -14,6 +14,7 @@ class Tile
 		this.inRangeOfRecycler = inRangeOfRecycler;
 	}
 
+	// actions
 	move(amount, toX, toY) {
 		process.stdout.write(`MOVE ${amount} ${this.x} ${this.y} ${toX} ${toY};`);
 	}
@@ -52,7 +53,7 @@ class Player
 		process.stdout.write('\n');
 	}
 
-	// private
+	// private utils
 	_moveRandom(tile) {
 		const step = 1;
 		const amount = tile.units;
