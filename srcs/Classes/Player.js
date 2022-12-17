@@ -72,8 +72,8 @@ class Player
 
 	moveCenter(tile) {
 		const amount = tile.units;
-		const toX = width / 2;
-		const toY = height / 2;
+		const toX = Math.round(width / 2);
+		const toY = Math.round(height / 2);
 		tile.move(amount, toX, toY);
 	}
 
