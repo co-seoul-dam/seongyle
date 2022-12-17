@@ -4,7 +4,7 @@ import "./Classes/Tile.js"
 var inputs = readline().split(' ');
 const width = parseInt(inputs[0]);
 const height = parseInt(inputs[1]);
-let turnCount = 0;
+let TURN_COUNT = 0;
 const COST = 10;
 
 // game loop
@@ -29,5 +29,5 @@ while (true) {
     }
 	const player = new Player(tiles, myMatter, oppMatter);
 	player.takeStrategy();
-	turnCount += 1;
+	TURN_COUNT += 1;
 }

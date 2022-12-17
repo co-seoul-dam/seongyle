@@ -13,7 +13,7 @@ class Player
 
 	takeStrategy() {
 		// switch strategy in proper condition
-		if (turnCount < 20)
+		if (TURN_COUNT < 20)
 			this.occupyCenterLine();
 		else
 			this.randomWalk();
