@@ -13,8 +13,12 @@ class Player
 
 	takeStrategy() {
 		// switch strategy in proper condition
-		this.occupyCenterLine();
-		//this.randomWalk();
+		if (turnCount < 20)
+			this.occupyCenterLine();
+		else
+			this.randomWalk();
+		process.stdout.write("WAIT");
+		process.stdout.write('\n');
 	}
 
 	randomWalk() {
@@ -25,7 +29,6 @@ class Player
 				tile.spawn(amount);
 			}
 		)
-		process.stdout.write('\n');
 	}
 
 	occupyCenterLine() {
@@ -36,7 +39,6 @@ class Player
 				tile.spawn(amount);
 			}
 		)
-		process.stdout.write('\n');
 	}
 	// private utils
 	_moveRandom(tile) {
