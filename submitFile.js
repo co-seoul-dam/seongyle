@@ -31,7 +31,7 @@ class Player
 	occupyCenterLine() {
 		this.myTiles.forEach( tile => {
 			const amount = 1;
-			this._moveRandom(tile);
+			this._moveCenterLine(tile);
 			if (tile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(tile))
 				tile.spawn(amount);
 			}
