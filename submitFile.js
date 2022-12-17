@@ -13,7 +13,8 @@ class Player
 
 	takeStrategy() {
 		// switch strategy in proper condition
-		this.randomWalk();
+		this.occupyCenterLine();
+		//this.randomWalk();
 	}
 
 	randomWalk() {
@@ -27,6 +28,16 @@ class Player
 		process.stdout.write('\n');
 	}
 
+	occupyCenterLine() {
+		this.myTiles.forEach( tile => {
+			const amount = 1;
+			this._moveRandom(tile);
+			if (tile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(tile))
+				tile.spawn(amount);
+			}
+		)
+		process.stdout.write('\n');
+	}
 	// private utils
 	_moveRandom(tile) {
 		const step = 1;
@@ -55,6 +66,13 @@ class Player
 			return ;
 		}
 		tile.move(amount, toX , toY);
+	}
+
+		_moveCenterLine(tile) {
+		const amount = tile.units;
+		const toX = width / 2;
+		const toY = height / 2;
+		tile.move(amount, toX, toY);
 	}
 
 	_isGoodPlaceToSpawn(tile) {
