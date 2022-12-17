@@ -1,5 +1,5 @@
-import "Classes/Player.js"
-import "Classes/Tile.js"
+import "./Classes/Player.js"
+import "./Classes/Tile.js"
 
 var inputs = readline().split(' ');
 const width = parseInt(inputs[0]);

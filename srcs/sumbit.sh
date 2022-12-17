@@ -1,7 +1,8 @@
 #!/bin/bash
+# place in same foler with MIAN_FILE
 
 MAIN_FILE="codingGame.js"
-SUBMIT_FILE="submitFile.js"
+SUBMIT_FILE="../../submitFile.js"
 
 rm $SUBMIT_FILE
 touch $SUBMIT_FILE
