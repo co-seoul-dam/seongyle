@@ -27,16 +27,20 @@ class Player
 			this._moveRandom(tile);
 			if (tile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(tile))
 				tile.spawn(amount);
+				this.myMatter -= COST;
 			}
 		)
 	}
 
 	occupyCenterLine() {
+		const centerTiles = this.neutralTiles.filter(tile => {tile.x == Math.round(width / 2)});
+		console.error(centerTiles.x);
 		this.myTiles.forEach( tile => {
 			const amount = 1;
-			this._moveCenter(tile);
+			this._moveCenterLine(tile);
 			if (tile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(tile))
 				tile.spawn(amount);
+				this.myMatter -= COST;
 			}
 		)
 	}
@@ -70,7 +74,7 @@ class Player
 		tile.move(amount, toX , toY);
 	}
 
-	_moveCenter(tile) {
+	_moveCenterLine(tile) {
 		const amount = tile.units;
 		const toX = Math.round(width / 2);
 		const toY = Math.round(height / 2);
