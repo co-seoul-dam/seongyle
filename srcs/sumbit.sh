@@ -4,8 +4,7 @@
 MAIN_FILE="codingGame.js"
 SUBMIT_FILE="../submitFile.js"
 
-rm $SUBMIT_FILE
-touch $SUBMIT_FILE
+cat /dev/null > $SUBMIT_FILE
 
 while IFS= read -r line; do
 	if [[ "$line" == *"import"* ]]; then
