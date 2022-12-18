@@ -119,4 +119,8 @@ class Player
 			return this._yInMap(-value);
 		}
 	}
+
+	_manhattanDist = (tile1, tile2) => {
+		return Math.abs(tile1.x - tile2.x) + Math.abs(tile1.y - tile2.y);
+	}
 }
