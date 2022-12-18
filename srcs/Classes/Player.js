@@ -33,9 +33,8 @@ class Player
 	}
 
 	occupyCenterLine() {
-		const centerTiles = this.neutralTiles.filter(tile => {tile.x == Math.round(width / 2)});
-		console.error(centerTiles.x);
-		this.myTiles.forEach( tile => {
+		const centerTiles = this.neutralTiles.filter(tile => tile.x === Math.round(width / 2));
+ 		this.myTiles.forEach( tile => {
 			const amount = 1;
 			this._moveCenterLine(tile);
 			if (tile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(tile))
