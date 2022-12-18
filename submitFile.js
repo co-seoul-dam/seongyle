@@ -34,22 +34,26 @@ class Player
 
 	occupyCenterLine() {
 		// spawn bot at closet tile
+		// move bot to centerline as soon as possible
+		//   -> side has high priority
+		// build recycler to protect my area
 		const centerTiles = this.neutralTiles.filter(tile => tile.x === Math.round(width / 2));
+		//centerTiles.sort( (tile1, tile2) => {return })
 		centerTiles.forEach( centerTile => {
 			const amount = 1;
 			const moveableTiles = this.myTiles.filter(tile => tile.units > 0 && tile.checked === false);
 			if (!moveableTiles.length)
 				return ;
-			const minDist = this._minManhattanDist(centerTile, moveableTiles);
-			const closestTile = moveableTiles.find(myTile => this._manhattanDist(myTile, centerTile) === minDist);
-			closestTile.checked = true;
+			const minDist = _minManhattanDist(centerTile, moveableTiles);
+			const closestTile = moveableTiles.find(myTile => _manhattanDist(myTile, centerTile) === minDist);
 			if (closestTile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(closestTile)) {
 				closestTile.spawn(amount);
 				this.myMatter -= COST;
-			}; 
-			// TODO: move method abstract.
+			};
 			closestTile.move(amount, centerTile.x, centerTile.y);
 			this.tiles[closestTile.x + closestTile.y * width].units -= amount;
+			if (closestTile.units <= 0)
+				closestTile.checked = true;
 		})
 	}
 
@@ -99,42 +103,6 @@ class Player
 			return false;
 		return true;
 	}
-
-	_xInMap = (value) => {
-		if (value < width && value >= 0) {
-			return value;
-		}
-		if (value >= width) {
-			return this._xInMap(2 * (width - 1) - value);
-		}
-		if (value < 0) {
-			return this._xInMap(-value);
-		}
-	}
-	_yInMap = (value) => {
-		if (value < height && value >= 0) {
-			return value;
-		}
-		if (value >= height) {
-			return this._yInMap(2 * (height - 1) - value);
-		}
-		if (value < 0) {
-			return this._yInMap(-value);
-		}
-	}
-
-	_manhattanDist = (tile1, tile2) => {
-		return Math.abs(tile1.x - tile2.x) + Math.abs(tile1.y - tile2.y);
-	}
-
-	_minManhattanDist = (destTile, tiles) => {
-		let min = Infinity;
-		tiles.forEach(originTile => {
-				if (min > this._manhattanDist(destTile, originTile))
-					min = this._manhattanDist(destTile, originTile);
-			})
-		return min;
-	}
 }
 
 class Tile
@@ -162,6 +130,43 @@ class Tile
 		process.stdout.write(`SPAWN ${amount} ${this.x} ${this.y};`);
 	}
 };
+
+_manhattanDist = (tile1, tile2) => {
+	return Math.abs(tile1.x - tile2.x) + Math.abs(tile1.y - tile2.y);
+}
+
+_minManhattanDist = (destTile, tiles) => {
+	let min = Infinity;
+	tiles.forEach(originTile => {
+			if (min > _manhattanDist(destTile, originTile))
+				min = _manhattanDist(destTile, originTile);
+		})
+		return min;
+}
+
+_xInMap = (value) => {
+	if (value < width && value >= 0) {
+		return value;
+	}
+	if (value >= width) {
+		return _xInMap(2 * (width - 1) - value);
+	}
+	if (value < 0) {
+		return _xInMap(-value);
+	}
+}
+
+_yInMap = (value) => {
+	if (value < height && value >= 0) {
+		return value;
+	}
+	if (value >= height) {
+		return _yInMap(2 * (height - 1) - value);
+	}
+	if (value < 0) {
+		return _yInMap(-value);
+	}
+}
 
 
 var inputs = readline().split(' ');

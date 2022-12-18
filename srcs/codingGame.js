@@ -1,5 +1,7 @@
 import "./Classes/Player.js"
 import "./Classes/Tile.js"
+import "./utils/dist.js"
+import "./utils/map.js"
 
 var inputs = readline().split(' ');
 const width = parseInt(inputs[0]);
