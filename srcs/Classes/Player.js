@@ -25,24 +25,34 @@ class Player
 		this.myTiles.forEach( tile => {
 			const amount = 1;
 			this._moveRandom(tile);
-			if (tile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(tile))
+			if (tile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(tile)) {
 				tile.spawn(amount);
 				this.myMatter -= COST;
 			}
-		)
+		})
 	}
 
 	occupyCenterLine() {
+		// spawn bot at closet tile
 		const centerTiles = this.neutralTiles.filter(tile => tile.x === Math.round(width / 2));
- 		this.myTiles.forEach( tile => {
+		centerTiles.forEach( centerTile => {
 			const amount = 1;
-			this._moveCenterLine(tile);
-			if (tile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(tile))
-				tile.spawn(amount);
+			const moveableTiles = this.myTiles.filter(tile => tile.units > 0 && tile.checked === false);
+			if (!moveableTiles.length)
+				return ;
+			const minDist = this._minManhattanDist(centerTile, moveableTiles);
+			const cloestTile = moveableTiles.find(myTile => this._manhattanDist(myTile, centerTile) === minDist);
+			cloestTile.checked = true;
+			if (cloestTile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(cloestTile)) {
+				cloestTile.spawn(amount);
 				this.myMatter -= COST;
-			}
-		)
+			};
+			// TODO: move method abstract.
+			cloestTile.move(amount, centerTile.x, centerTile.y);
+			this.tiles[cloestTile.x + cloestTile.y * width].units -= amount;
+		})
 	}
+
 	// private utils
 	_moveRandom(tile) {
 		const step = 1;
@@ -71,13 +81,6 @@ class Player
 			return ;
 		}
 		tile.move(amount, toX , toY);
-	}
-
-	_moveCenterLine(tile) {
-		const amount = tile.units;
-		const toX = Math.round(width / 2);
-		const toY = Math.round(height / 2);
-		tile.move(amount, toX, toY);
 	}
 
 	_isGoodPlaceToSpawn(tile) {
@@ -122,5 +125,14 @@ class Player
 
 	_manhattanDist = (tile1, tile2) => {
 		return Math.abs(tile1.x - tile2.x) + Math.abs(tile1.y - tile2.y);
+	}
+
+	_minManhattanDist = (destTile, tiles) => {
+		let min = Infinity;
+		tiles.forEach(originTile => {
+				if (min > this._manhattanDist(destTile, originTile))
+					min = this._manhattanDist(destTile, originTile);
+			})
+		return min;
 	}
 }

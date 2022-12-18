@@ -11,6 +11,7 @@ class Tile
 		this.canBuild = canBuild;
 		this.canSpawn = canSpawn;
 		this.inRangeOfRecycler = inRangeOfRecycler;
+		this.checked = false;
 	}
 
 	// actions

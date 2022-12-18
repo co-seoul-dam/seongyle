@@ -13,31 +13,46 @@ class Player
 
 	takeStrategy() {
 		// switch strategy in proper condition
-		this.occupyCenterLine();
-		//this.randomWalk();
+		if (TURN_COUNT < 20)
+			this.occupyCenterLine();
+		else
+			this.randomWalk();
+		process.stdout.write("WAIT");
+		process.stdout.write('\n');
 	}
 
 	randomWalk() {
 		this.myTiles.forEach( tile => {
 			const amount = 1;
 			this._moveRandom(tile);
-			if (tile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(tile))
+			if (tile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(tile)) {
 				tile.spawn(amount);
+				this.myMatter -= COST;
 			}
-		)
-		process.stdout.write('\n');
+		})
 	}
 
 	occupyCenterLine() {
-		this.myTiles.forEach( tile => {
+		// spawn bot at closet tile
+		const centerTiles = this.neutralTiles.filter(tile => tile.x === Math.round(width / 2));
+		centerTiles.forEach( centerTile => {
 			const amount = 1;
-			this._moveCenterLine(tile);
-			if (tile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(tile))
-				tile.spawn(amount);
-			}
-		)
-		process.stdout.write('\n');
+			const moveableTiles = this.myTiles.filter(tile => tile.units > 0 && tile.checked === false);
+			if (!moveableTiles.length)
+				return ;
+			const minDist = this._minManhattanDist(centerTile, moveableTiles);
+			const cloestTile = moveableTiles.find(myTile => this._manhattanDist(myTile, centerTile) === minDist);
+			cloestTile.checked = true;
+			if (cloestTile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(cloestTile)) {
+				cloestTile.spawn(amount);
+				this.myMatter -= COST;
+			}; 
+			// TODO: move method abstract.
+			cloestTile.move(amount, centerTile.x, centerTile.y);
+			this.tiles[cloestTile.x + cloestTile.y * width].units -= amount;
+		})
 	}
+
 	// private utils
 	_moveRandom(tile) {
 		const step = 1;
@@ -66,13 +81,6 @@ class Player
 			return ;
 		}
 		tile.move(amount, toX , toY);
-	}
-
-		_moveCenterLine(tile) {
-		const amount = tile.units;
-		const toX = width / 2;
-		const toY = height / 2;
-		tile.move(amount, toX, toY);
 	}
 
 	_isGoodPlaceToSpawn(tile) {
@@ -114,6 +122,19 @@ class Player
 			return this._yInMap(-value);
 		}
 	}
+
+	_manhattanDist = (tile1, tile2) => {
+		return Math.abs(tile1.x - tile2.x) + Math.abs(tile1.y - tile2.y);
+	}
+
+	_minManhattanDist = (destTile, tiles) => {
+		let min = Infinity;
+		tiles.forEach(originTile => {
+				if (min > this._manhattanDist(destTile, originTile))
+					min = this._manhattanDist(destTile, originTile);
+			})
+		return min;
+	}
 }
 
 class Tile
@@ -129,6 +150,7 @@ class Tile
 		this.canBuild = canBuild;
 		this.canSpawn = canSpawn;
 		this.inRangeOfRecycler = inRangeOfRecycler;
+		this.checked = false;
 	}
 
 	// actions
@@ -145,7 +167,8 @@ class Tile
 var inputs = readline().split(' ');
 const width = parseInt(inputs[0]);
 const height = parseInt(inputs[1]);
-let turnCount = 0;
+let TURN_COUNT = 0;
+const COST = 10;
 
 // game loop
 while (true) {
@@ -169,5 +192,5 @@ tiles.push(tile);
 }
 const player = new Player(tiles, myMatter, oppMatter);
 player.takeStrategy();
-turnCount += 1;
+TURN_COUNT += 1;
 }
