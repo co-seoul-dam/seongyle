@@ -41,15 +41,15 @@ class Player
 			if (!moveableTiles.length)
 				return ;
 			const minDist = this._minManhattanDist(centerTile, moveableTiles);
-			const cloestTile = moveableTiles.find(myTile => this._manhattanDist(myTile, centerTile) === minDist);
-			cloestTile.checked = true;
-			if (cloestTile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(cloestTile)) {
-				cloestTile.spawn(amount);
+			const closestTile = moveableTiles.find(myTile => this._manhattanDist(myTile, centerTile) === minDist);
+			closestTile.checked = true;
+			if (closestTile.canSpawn && this.myMatter >= 10 && this._isGoodPlaceToSpawn(closestTile)) {
+				closestTile.spawn(amount);
 				this.myMatter -= COST;
 			};
 			// TODO: move method abstract.
-			cloestTile.move(amount, centerTile.x, centerTile.y);
-			this.tiles[cloestTile.x + cloestTile.y * width].units -= amount;
+			closestTile.move(amount, centerTile.x, centerTile.y);
+			this.tiles[closestTile.x + closestTile.y * width].units -= amount;
 		})
 	}
 

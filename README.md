@@ -2,7 +2,7 @@
 
 ## Codam & Seoul hackathon
 
-## make subfile
+## make submit file
 ```
 bash submit.sh
 
